@@ -54014,6 +54014,129 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactBootstrap = require('react-bootstrap');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var QueryOrgInfo = function (_Component) {
+  _inherits(QueryOrgInfo, _Component);
+
+  function QueryOrgInfo() {
+    var _Object$getPrototypeO;
+
+    _classCallCheck(this, QueryOrgInfo);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(QueryOrgInfo)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+
+    _this.state = {};
+    return _this;
+  }
+
+  _createClass(QueryOrgInfo, [{
+    key: 'render',
+    value: function render() {
+      var _this2 = this;
+
+      return _react2.default.createElement(
+        'div',
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Row,
+          null,
+          _react2.default.createElement(
+            _reactBootstrap.Col,
+            { md: 12 },
+            _react2.default.createElement(
+              'h2',
+              null,
+              _react2.default.createElement(
+                'span',
+                null,
+                'Janice\'s Restaurant '
+              ),
+              _react2.default.createElement(
+                'small',
+                null,
+                _react2.default.createElement(
+                  'a',
+                  { href: '#', onClick: function onClick() {
+                      return _this2.setState({ open: !_this2.state.open });
+                    } },
+                  'See details'
+                )
+              )
+            )
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Collapse,
+          { 'in': this.state.open },
+          _react2.default.createElement(
+            _reactBootstrap.Row,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { md: 8, sm: 8 },
+              _react2.default.createElement(
+                'p',
+                null,
+                'Janices restaurant is located in Someplace, catering to a Particular Set Of Customers. They\'ve performed well, starting from nothing a few years ago, and are considering expanding into a new area of business.'
+              ),
+              _react2.default.createElement(
+                'p',
+                null,
+                _react2.default.createElement(
+                  'a',
+                  { href: '#' },
+                  'Home page'
+                ),
+                ' | ',
+                _react2.default.createElement(
+                  'a',
+                  { href: '#' },
+                  'Past markets'
+                )
+              )
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.Col,
+              { md: 4, sm: 4 },
+              _react2.default.createElement(_reactBootstrap.Image, { src: 'http://placekitten.com/768/300', responsive: true, thumbnail: true })
+            )
+          )
+        )
+      );
+    }
+  }]);
+
+  return QueryOrgInfo;
+}(_react.Component);
+
+exports.default = QueryOrgInfo;
+
+},{"react":434,"react-bootstrap":94}],436:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
 var _lodash = require('lodash');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -54078,7 +54201,7 @@ var QueryRender = function (_Component) {
 
 exports.default = QueryRender;
 
-},{"lodash":2,"react":434}],436:[function(require,module,exports){
+},{"lodash":2,"react":434}],437:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54174,7 +54297,7 @@ var QueryVar = function (_Component) {
 
 exports.default = QueryVar;
 
-},{"react":434,"react-bootstrap":94}],437:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],438:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54242,7 +54365,87 @@ var QueryVarList = function (_Component) {
 
 exports.default = QueryVarList;
 
-},{"./QueryVar.js":436,"react":434,"react-bootstrap":94}],438:[function(require,module,exports){
+},{"./QueryVar.js":437,"react":434,"react-bootstrap":94}],439:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = require('react-bootstrap');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Topbar = function (_Component) {
+  _inherits(Topbar, _Component);
+
+  function Topbar() {
+    _classCallCheck(this, Topbar);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(Topbar).apply(this, arguments));
+  }
+
+  _createClass(Topbar, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactBootstrap.Navbar,
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Navbar.Header,
+          null,
+          _react2.default.createElement(
+            _reactBootstrap.Navbar.Brand,
+            null,
+            _react2.default.createElement(
+              'a',
+              { href: '#' },
+              'Whiskr'
+            )
+          ),
+          _react2.default.createElement(_reactBootstrap.Navbar.Toggle, null)
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Nav,
+          null,
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: 1, href: '#' },
+            'Browse'
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: 2, href: '#' },
+            'Profile'
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.NavItem,
+            { eventKey: 3, href: '#' },
+            'Settings'
+          )
+        )
+      );
+    }
+  }]);
+
+  return Topbar;
+}(_react.Component);
+
+exports.default = Topbar;
+
+},{"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54264,6 +54467,14 @@ var _QueryVarList2 = _interopRequireDefault(_QueryVarList);
 var _QueryRender = require('../components/QueryRender');
 
 var _QueryRender2 = _interopRequireDefault(_QueryRender);
+
+var _QueryOrgInfo = require('../components/QueryOrgInfo');
+
+var _QueryOrgInfo2 = _interopRequireDefault(_QueryOrgInfo);
+
+var _Topbar = require('../components/Topbar/Topbar');
+
+var _Topbar2 = _interopRequireDefault(_Topbar);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54344,50 +54555,56 @@ var App = function (_Component) {
       addOutcome = addOutcome.bind(this);
       removeOutcome = removeOutcome.bind(this);
       return _react2.default.createElement(
-        _reactBootstrap.Grid,
-        { fluid: true },
+        'div',
+        null,
+        _react2.default.createElement(_Topbar2.default, null),
         _react2.default.createElement(
-          _reactBootstrap.Row,
-          null,
+          _reactBootstrap.Grid,
+          { fluid: true },
+          _react2.default.createElement(_QueryOrgInfo2.default, null),
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { md: 3 },
+            _reactBootstrap.Row,
+            null,
             _react2.default.createElement(
-              'h3',
-              null,
-              'Decisions'
+              _reactBootstrap.Col,
+              { lg: 2, md: 3, sm: 6, xs: 12 },
+              _react2.default.createElement(
+                'h3',
+                null,
+                'Decisions'
+              ),
+              _react2.default.createElement(_QueryVarList2.default, {
+                variables: testDecisions,
+                query: query,
+                addOutcome: addOutcome,
+                removeOutcome: removeOutcome
+              })
             ),
-            _react2.default.createElement(_QueryVarList2.default, {
-              variables: testDecisions,
-              query: query,
-              addOutcome: addOutcome,
-              removeOutcome: removeOutcome
-            })
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { md: 3 },
             _react2.default.createElement(
-              'h3',
-              null,
-              'Outcomes'
+              _reactBootstrap.Col,
+              { lg: 2, md: 3, sm: 6, xs: 12 },
+              _react2.default.createElement(
+                'h3',
+                null,
+                'Outcomes'
+              ),
+              _react2.default.createElement(_QueryVarList2.default, {
+                variables: testOutcomes,
+                query: query,
+                addOutcome: addOutcome,
+                removeOutcome: removeOutcome
+              })
             ),
-            _react2.default.createElement(_QueryVarList2.default, {
-              variables: testOutcomes,
-              query: query,
-              addOutcome: addOutcome,
-              removeOutcome: removeOutcome
-            })
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.Col,
-            { md: 6 },
             _react2.default.createElement(
-              'h3',
-              null,
-              'Chart'
-            ),
-            _react2.default.createElement(_QueryRender2.default, { query: query })
+              _reactBootstrap.Col,
+              { lg: 8, md: 6, sm: 12, xs: 12 },
+              _react2.default.createElement(
+                'h3',
+                null,
+                'Chart'
+              ),
+              _react2.default.createElement(_QueryRender2.default, { query: query })
+            )
           )
         )
       );
@@ -54399,7 +54616,7 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"../components/QueryRender":435,"../components/QueryVarList":437,"react":434,"react-bootstrap":94}],439:[function(require,module,exports){
+},{"../components/QueryOrgInfo":435,"../components/QueryRender":436,"../components/QueryVarList":438,"../components/Topbar/Topbar":439,"react":434,"react-bootstrap":94}],441:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -54420,4 +54637,4 @@ var rootElement = document.getElementById('main');
 
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), rootElement);
 
-},{"./containers/App":438,"react":434,"react-dom":269}]},{},[439]);
+},{"./containers/App":440,"react":434,"react-dom":269}]},{},[441]);
