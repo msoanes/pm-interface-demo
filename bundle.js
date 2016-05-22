@@ -54072,7 +54072,7 @@ var QueryOrgInfo = function (_Component) {
                   { href: '#', onClick: function onClick() {
                       return _this2.setState({ open: !_this2.state.open });
                     } },
-                  'See details'
+                  this.state.open ? "Hide details" : "Show details"
                 )
               )
             )
@@ -54082,36 +54082,40 @@ var QueryOrgInfo = function (_Component) {
           _reactBootstrap.Collapse,
           { 'in': this.state.open },
           _react2.default.createElement(
-            _reactBootstrap.Row,
+            'div',
             null,
             _react2.default.createElement(
-              _reactBootstrap.Col,
-              { md: 8, sm: 8 },
+              _reactBootstrap.Row,
+              null,
               _react2.default.createElement(
-                'p',
-                null,
-                'Janices restaurant is located in Someplace, catering to a Particular Set Of Customers. They\'ve performed well, starting from nothing a few years ago, and are considering expanding into a new area of business.'
+                _reactBootstrap.Col,
+                { md: 8, sm: 8 },
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  'Janices restaurant is located in Someplace, catering to a Particular Set Of Customers. They\'ve performed well, starting from nothing a few years ago, and are considering expanding into a new area of business.'
+                ),
+                _react2.default.createElement(
+                  'p',
+                  null,
+                  _react2.default.createElement(
+                    'a',
+                    { href: '#' },
+                    'Home page'
+                  ),
+                  ' | ',
+                  _react2.default.createElement(
+                    'a',
+                    { href: '#' },
+                    'Past markets'
+                  )
+                )
               ),
               _react2.default.createElement(
-                'p',
-                null,
-                _react2.default.createElement(
-                  'a',
-                  { href: '#' },
-                  'Home page'
-                ),
-                ' | ',
-                _react2.default.createElement(
-                  'a',
-                  { href: '#' },
-                  'Past markets'
-                )
+                _reactBootstrap.Col,
+                { md: 4, sm: 4 },
+                _react2.default.createElement(_reactBootstrap.Image, { src: 'http://placekitten.com/768/300', responsive: true, thumbnail: true })
               )
-            ),
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { md: 4, sm: 4 },
-              _react2.default.createElement(_reactBootstrap.Image, { src: 'http://placekitten.com/768/300', responsive: true, thumbnail: true })
             )
           )
         )
