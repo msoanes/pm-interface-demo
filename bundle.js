@@ -54299,39 +54299,41 @@ var QueryRender = function (_Component) {
   }
 
   _createClass(QueryRender, [{
+    key: 'genQueryPart',
+    value: function genQueryPart(query) {
+      var variableElements = [];
+      Object.keys(query).forEach(function (variable, idx) {
+        var outcomes = query[variable].join(' or ');
+        var variableElement = variable + ': ' + outcomes;
+        variableElements.push(variableElement);
+      });
+      return variableElements.join(' and ');
+    }
+  }, {
     key: 'render',
     value: function render() {
       var query = this.props.query;
 
-      var variableElements = [];
-      Object.keys(query).forEach(function (variable, idx) {
-        var outcomes = _lodash2.default.map(query[variable], function (outcome) {
-          return _react2.default.createElement(
-            'li',
-            null,
-            outcome
-          );
-        });
-        var variableElement = _react2.default.createElement(
-          'div',
-          { key: idx },
-          _react2.default.createElement(
-            'p',
-            null,
-            variable
-          ),
-          _react2.default.createElement(
-            'ul',
-            null,
-            outcomes
-          )
-        );
-        variableElements.push(variableElement);
-      });
+      var outcomeString = this.genQueryPart(query.outcomes);
+      var decisionString = this.genQueryPart(query.decisions);
       return _react2.default.createElement(
         'div',
         null,
-        variableElements
+        outcomeString.length === 0 ? '' : 'Probability of',
+        _react2.default.createElement(
+          'strong',
+          null,
+          ' ',
+          outcomeString,
+          ' '
+        ),
+        decisionString.length === 0 ? '' : 'If',
+        _react2.default.createElement(
+          'strong',
+          null,
+          ' ',
+          decisionString
+        )
       );
     }
   }]);
@@ -54658,34 +54660,40 @@ var App = function (_Component) {
         name: "Average meal revenue",
         outcomes: ["$5-$15", "$16-$25", ">$25"]
       }],
-      query: {}
+      query: {
+        decisions: {},
+        outcomes: {}
+      }
     };
     return _this;
   }
 
   _createClass(App, [{
     key: 'addOutcome',
-    value: function addOutcome(variable, outcome) {
+    value: function addOutcome(part, variable, outcome) {
+      console.log(part, variable, outcome);
       this.setState(function (state) {
         var query = state.query;
-        if (query[variable]) {
-          query[variable].push(outcome);
+        if (query[part][variable]) {
+          query[part][variable].push(outcome);
         } else {
-          query[variable] = [outcome];
+          query[part][variable] = [outcome];
         }
+        console.log(query);
         return { query: query };
       });
     }
   }, {
     key: 'removeOutcome',
-    value: function removeOutcome(variable, outcome) {
+    value: function removeOutcome(part, variable, outcome) {
       this.setState(function (state) {
         var query = state.query;
-        var outcomeIndex = query[variable].indexOf(outcome);
-        if (query[variable].length > 1) {
-          query[variable] = query[variable].slice(0, outcomeIndex).concat(query[variable].slice(outcomeIndex + 1));
+        var outcomeIndex = query[part][variable].indexOf(outcome);
+        var outcomeArr = query[part][variable];
+        if (outcomeArr.length > 1) {
+          query[part][variable] = outcomeArr.slice(0, outcomeIndex).concat(outcomeArr.slice(outcomeIndex + 1));
         } else {
-          delete query[variable];
+          delete query[part][variable];
         }
         return { query: query };
       });
@@ -54700,8 +54708,10 @@ var App = function (_Component) {
       var addOutcome = this.addOutcome;
       var removeOutcome = this.removeOutcome;
 
-      addOutcome = addOutcome.bind(this);
-      removeOutcome = removeOutcome.bind(this);
+      var addDecisionOutcome = addOutcome.bind(this, 'decisions');
+      var removeDecisionOutcome = removeOutcome.bind(this, 'decisions');
+      var addOutcomeOutcome = addOutcome.bind(this, 'outcomes');
+      var removeOutcomeOutcome = removeOutcome.bind(this, 'outcomes');
       return _react2.default.createElement(
         'div',
         null,
@@ -54723,9 +54733,9 @@ var App = function (_Component) {
               ),
               _react2.default.createElement(_QueryVarList2.default, {
                 variables: testDecisions,
-                query: query,
-                addOutcome: addOutcome,
-                removeOutcome: removeOutcome
+                query: query.decisions,
+                addOutcome: addDecisionOutcome,
+                removeOutcome: removeDecisionOutcome
               })
             ),
             _react2.default.createElement(
@@ -54738,9 +54748,9 @@ var App = function (_Component) {
               ),
               _react2.default.createElement(_QueryVarList2.default, {
                 variables: testOutcomes,
-                query: query,
-                addOutcome: addOutcome,
-                removeOutcome: removeOutcome
+                query: query.outcomes,
+                addOutcome: addOutcomeOutcome,
+                removeOutcome: removeOutcomeOutcome
               })
             ),
             _react2.default.createElement(
