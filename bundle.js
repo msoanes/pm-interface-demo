@@ -54403,9 +54403,12 @@ var QueryVar = function (_Component) {
     value: function render() {
       var _this2 = this;
 
-      var _props$variable = this.props.variable;
-      var name = _props$variable.name;
-      var outcomes = _props$variable.outcomes;
+      var _props2 = this.props;
+      var query = _props2.query;
+      var variable = _props2.variable;
+      var name = variable.name;
+      var outcomes = variable.outcomes;
+      var help = variable.help;
 
       var outcomeElements = [];
       outcomes.forEach(function (outcome, i) {
@@ -54416,15 +54419,15 @@ var QueryVar = function (_Component) {
             onClick: function onClick() {
               return _this2.toggleOutcome(outcome);
             },
-            bsStyle: _this2.isInQuery(outcome) ? 'success' : 'warning'
+            bsStyle: _this2.isInQuery(outcome) ? 'success' : 'default'
           },
           outcome
         ));
       });
       return _react2.default.createElement(
         _reactBootstrap.Panel,
-        { collapsible: true, header: name },
-        'Some help text to explain exactly what this variable is all about.',
+        { collapsible: true, header: name, bsStyle: query[name] ? 'success' : 'default' },
+        help,
         _react2.default.createElement(
           _reactBootstrap.ListGroup,
           { fill: true },
@@ -54645,19 +54648,24 @@ var App = function (_Component) {
     _this.state = {
       testDecisions: [{
         name: "New wait staff",
+        help: "Number of new wait staff hired",
         outcomes: ["0", "1-2", "3-4"]
       }, {
         name: "New menu items",
+        help: "Which new menu item to add",
         outcomes: ["Chicken burger", "Tofu salad"]
       }],
       testOutcomes: [{
         name: "Nighttime customers",
+        help: "Number of customers between 6pm and close",
         outcomes: ["0-20", "21-50", "51-150"]
       }, {
         name: "Daytime customers",
+        help: "Number of customers between opening and 6pm",
         outcomes: ["0-20", "21-50", "51-150", ">150"]
       }, {
         name: "Average meal revenue",
+        help: "Average amount paid per customer",
         outcomes: ["$5-$15", "$16-$25", ">$25"]
       }],
       query: {
@@ -54671,7 +54679,6 @@ var App = function (_Component) {
   _createClass(App, [{
     key: 'addOutcome',
     value: function addOutcome(part, variable, outcome) {
-      console.log(part, variable, outcome);
       this.setState(function (state) {
         var query = state.query;
         if (query[part][variable]) {
@@ -54679,7 +54686,6 @@ var App = function (_Component) {
         } else {
           query[part][variable] = [outcome];
         }
-        console.log(query);
         return { query: query };
       });
     }
