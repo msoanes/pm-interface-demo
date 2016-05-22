@@ -54024,6 +54024,142 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var QueryChart = function (_Component) {
+  _inherits(QueryChart, _Component);
+
+  function QueryChart() {
+    var _Object$getPrototypeO;
+
+    _classCallCheck(this, QueryChart);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(QueryChart)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+
+    var newOne = Math.random();
+    _this.state = { percentage: newOne, newPercentage: newOne };
+    return _this;
+  }
+
+  _createClass(QueryChart, [{
+    key: 'resetPercentage',
+    value: function resetPercentage() {
+      var newOne = Math.random();
+      this.setState({ percentage: newOne, newPercentage: newOne });
+    }
+  }, {
+    key: 'setNewPercentage',
+    value: function setNewPercentage(e) {
+      var rect = e.currentTarget.getBoundingClientRect();
+      var newPercentage = (e.clientX - rect.left) / (rect.right - rect.left);
+      this.setState({ newPercentage: newPercentage });
+    }
+  }, {
+    key: 'startSlide',
+    value: function startSlide(e) {
+      var target = e.currentTarget;
+      this.setNewPercentage(e);
+      target.onmousemove = this.setNewPercentage.bind(this);
+      document.onmouseup = function () {
+        return target.onmousemove = null;
+      };
+    }
+  }, {
+    key: 'stringifyPercentage',
+    value: function stringifyPercentage(percentage) {
+      return Math.floor(percentage * 100) + '.' + Math.floor(percentage * 1000 % 10) + '%';
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state = this.state;
+      var percentage = _state.percentage;
+      var newPercentage = _state.newPercentage;
+
+      var barBackgroundStyle = {
+        cursor: 'pointer',
+        userSelect: 'none',
+        height: '40px',
+        width: '100%',
+        backgroundColor: '#ccccff',
+        position: 'relative'
+      };
+
+      var currentBarStyle = {
+        height: '40px',
+        width: percentage * 100 + '%',
+        backgroundColor: '#aaaadd',
+        transition: 'width 0.3s',
+        position: 'absolute'
+      };
+
+      var newBarStyle = {
+        height: '40px',
+        width: newPercentage * 100 + '%',
+        backgroundColor: 'rgba(85, 85, 110, 0.3)',
+        // transition: 'width 0.2s',
+        position: 'absolute',
+        borderRight: '2px solid #5555dd'
+      };
+
+      return _react2.default.createElement(
+        _reactBootstrap.Row,
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Col,
+          { md: 3 },
+          _react2.default.createElement(
+            'h4',
+            null,
+            this.stringifyPercentage(percentage),
+            '➜',
+            this.stringifyPercentage(newPercentage)
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Col,
+          { md: 9 },
+          _react2.default.createElement(
+            'div',
+            { style: barBackgroundStyle, onMouseDown: this.startSlide.bind(this) },
+            _react2.default.createElement('div', { style: currentBarStyle }),
+            _react2.default.createElement('div', { style: newBarStyle })
+          )
+        )
+      );
+    }
+  }]);
+
+  return QueryChart;
+}(_react.Component);
+
+exports.default = QueryChart;
+
+},{"react":434,"react-bootstrap":94}],436:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = require('react-bootstrap');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var QueryOrgInfo = function (_Component) {
   _inherits(QueryOrgInfo, _Component);
 
@@ -54097,7 +54233,7 @@ var QueryOrgInfo = function (_Component) {
                 ),
                 _react2.default.createElement(
                   'p',
-                  null,
+                  { className: 'text-center' },
                   _react2.default.createElement(
                     'a',
                     { href: '#' },
@@ -54128,7 +54264,7 @@ var QueryOrgInfo = function (_Component) {
 
 exports.default = QueryOrgInfo;
 
-},{"react":434,"react-bootstrap":94}],436:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],437:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54205,7 +54341,7 @@ var QueryRender = function (_Component) {
 
 exports.default = QueryRender;
 
-},{"lodash":2,"react":434}],437:[function(require,module,exports){
+},{"lodash":2,"react":434}],438:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54301,7 +54437,7 @@ var QueryVar = function (_Component) {
 
 exports.default = QueryVar;
 
-},{"react":434,"react-bootstrap":94}],438:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],439:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54357,7 +54493,7 @@ var QueryVarList = function (_Component) {
         }));
       });
       return _react2.default.createElement(
-        _reactBootstrap.Accordion,
+        _reactBootstrap.PanelGroup,
         null,
         panels
       );
@@ -54369,7 +54505,7 @@ var QueryVarList = function (_Component) {
 
 exports.default = QueryVarList;
 
-},{"./QueryVar.js":437,"react":434,"react-bootstrap":94}],439:[function(require,module,exports){
+},{"./QueryVar.js":438,"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54453,7 +54589,7 @@ var Topbar = function (_Component) {
 
 exports.default = Topbar;
 
-},{"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],441:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54479,6 +54615,10 @@ var _QueryRender2 = _interopRequireDefault(_QueryRender);
 var _QueryOrgInfo = require('../components/QueryOrgInfo');
 
 var _QueryOrgInfo2 = _interopRequireDefault(_QueryOrgInfo);
+
+var _QueryChart = require('../components/QueryChart');
+
+var _QueryChart2 = _interopRequireDefault(_QueryChart);
 
 var _Topbar = require('../components/Topbar/Topbar');
 
@@ -54611,7 +54751,8 @@ var App = function (_Component) {
                 null,
                 'Chart'
               ),
-              _react2.default.createElement(_QueryRender2.default, { query: query })
+              _react2.default.createElement(_QueryRender2.default, { query: query }),
+              _react2.default.createElement(_QueryChart2.default, null)
             )
           )
         )
@@ -54624,7 +54765,7 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"../components/QueryOrgInfo":435,"../components/QueryRender":436,"../components/QueryVarList":438,"../components/Topbar/Topbar":439,"react":434,"react-bootstrap":94}],441:[function(require,module,exports){
+},{"../components/QueryChart":435,"../components/QueryOrgInfo":436,"../components/QueryRender":437,"../components/QueryVarList":439,"../components/Topbar/Topbar":440,"react":434,"react-bootstrap":94}],442:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -54645,4 +54786,4 @@ var rootElement = document.getElementById('main');
 
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), rootElement);
 
-},{"./containers/App":440,"react":434,"react-dom":269}]},{},[441]);
+},{"./containers/App":441,"react":434,"react-dom":269}]},{},[442]);
