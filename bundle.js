@@ -54422,22 +54422,26 @@ var Topbar = function (_Component) {
           _react2.default.createElement(_reactBootstrap.Navbar.Toggle, null)
         ),
         _react2.default.createElement(
-          _reactBootstrap.Nav,
+          _reactBootstrap.Navbar.Collapse,
           null,
           _react2.default.createElement(
-            _reactBootstrap.NavItem,
-            { eventKey: 1, href: '#' },
-            'Browse'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.NavItem,
-            { eventKey: 2, href: '#' },
-            'Profile'
-          ),
-          _react2.default.createElement(
-            _reactBootstrap.NavItem,
-            { eventKey: 3, href: '#' },
-            'Settings'
+            _reactBootstrap.Nav,
+            null,
+            _react2.default.createElement(
+              _reactBootstrap.NavItem,
+              { eventKey: 1, href: '#' },
+              'Browse'
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.NavItem,
+              { eventKey: 2, href: '#' },
+              'Profile'
+            ),
+            _react2.default.createElement(
+              _reactBootstrap.NavItem,
+              { eventKey: 3, href: '#' },
+              'Settings'
+            )
           )
         )
       );
@@ -54571,7 +54575,7 @@ var App = function (_Component) {
             null,
             _react2.default.createElement(
               _reactBootstrap.Col,
-              { lg: 2, md: 3, sm: 6, xs: 12 },
+              { md: 3, sm: 6, xs: 12 },
               _react2.default.createElement(
                 'h3',
                 null,
@@ -54586,7 +54590,7 @@ var App = function (_Component) {
             ),
             _react2.default.createElement(
               _reactBootstrap.Col,
-              { lg: 2, md: 3, sm: 6, xs: 12 },
+              { md: 3, sm: 6, xs: 12 },
               _react2.default.createElement(
                 'h3',
                 null,
@@ -54601,7 +54605,7 @@ var App = function (_Component) {
             ),
             _react2.default.createElement(
               _reactBootstrap.Col,
-              { lg: 8, md: 6, sm: 12, xs: 12 },
+              { md: 6, sm: 12, xs: 12 },
               _react2.default.createElement(
                 'h3',
                 null,
