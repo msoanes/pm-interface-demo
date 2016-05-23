@@ -2,3 +2,122 @@
   text-decoration: underline;
   cursor: pointer;
 }
+
+.background-bar {
+    margin: 5px;
+    cursor: pointer;
+    user-select: none;
+    height: 40px;
+    width: 100%;
+    background-color: #ccccff;
+    position: relative;
+}
+
+.current-bar {
+  height: 40px;
+  background-color: #aaaadd;
+  transition: width 0.3s;
+  position: absolute;
+}
+
+.new-bar {
+  height: 40px;
+  background-color: rgba(85, 85, 110, 0.3);
+  position: absolute;
+  border-right: 2px solid #5555dd;
+}
+
+.chart-panel-1 {
+  border-color: #ad33cd;
+}
+.chart-panel-1 > .panel-heading {
+  color: #fff;
+  background-color: #ad33cd;
+  border-color: #ad33cd;
+}
+.chart-panel-1 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ad33cd;
+}
+.chart-panel-1 > .panel-heading .badge {
+  color: #ad33cd;
+  background-color: #fff;
+}
+.chart-panel-1 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ad33cd;
+}
+
+.chart-panel-2 {
+  border-color: #dd6f00;
+}
+.chart-panel-2 > .panel-heading {
+  color: #fff;
+  background-color: #dd6f00;
+  border-color: #dd6f00;
+}
+.chart-panel-2 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #dd6f00;
+}
+.chart-panel-2 > .panel-heading .badge {
+  color: #dd6f00;
+  background-color: #fff;
+}
+.chart-panel-2 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #dd6f00;
+}
+
+.chart-panel-3 {
+  border-color: #336ac7;
+}
+.chart-panel-3 > .panel-heading {
+  color: #fff;
+  background-color: #337ab7;
+  border-color: #337ab7;
+}
+.chart-panel-3 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #337ab7;
+}
+.chart-panel-3 > .panel-heading .badge {
+  color: #337ab7;
+  background-color: #fff;
+}
+.chart-panel-3 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #337ab7;
+}
+
+.chart-panel-4 {
+  border-color: #ed3333;
+}
+.chart-panel-4 > .panel-heading {
+  color: #fff;
+  background-color: #ed3333;
+  border-color: #ed3333;
+}
+.chart-panel-4 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #ed3333;
+}
+.chart-panel-4 > .panel-heading .badge {
+  color: #ed3333;
+  background-color: #fff;
+}
+.chart-panel-4 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #ed3333;
+}
+
+.chart-panel-5 {
+  border-color: #33ad33;
+}
+.chart-panel-5 > .panel-heading {
+  color: #fff;
+  background-color: #33ad33;
+  border-color: #33ad33;
+}
+.chart-panel-5 > .panel-heading + .panel-collapse > .panel-body {
+  border-top-color: #33ad33;
+}
+.chart-panel-5 > .panel-heading .badge {
+  color: #33ad33;
+  background-color: #fff;
+}
+.chart-panel-5 > .panel-footer + .panel-collapse > .panel-body {
+  border-bottom-color: #33ad33;
+}

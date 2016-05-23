@@ -54036,6 +54036,10 @@ var QueryAdd = function (_Component) {
   _createClass(QueryAdd, [{
     key: 'render',
     value: function render() {
+      var _props = this.props;
+      var disabled = _props.disabled;
+      var addQuery = _props.addQuery;
+
       return _react2.default.createElement(
         _reactBootstrap.Row,
         null,
@@ -54044,7 +54048,7 @@ var QueryAdd = function (_Component) {
           { md: 12 },
           _react2.default.createElement(
             _reactBootstrap.Button,
-            { bsStyle: 'success', onClick: this.props.addQuery, block: true },
+            { bsStyle: 'success', disabled: disabled, onClick: addQuery, block: true },
             'Add query'
           )
         )
@@ -54072,9 +54076,17 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _QueryRender = require('./QueryRender');
+var _QueryAdd = require('./QueryAdd');
 
-var _QueryRender2 = _interopRequireDefault(_QueryRender);
+var _QueryAdd2 = _interopRequireDefault(_QueryAdd);
+
+var _QuerySubmit = require('./QuerySubmit');
+
+var _QuerySubmit2 = _interopRequireDefault(_QuerySubmit);
+
+var _QueryPanel = require('./QueryPanel');
+
+var _QueryPanel2 = _interopRequireDefault(_QueryPanel);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -54084,147 +54096,158 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var QueryChart = function (_Component) {
-  _inherits(QueryChart, _Component);
+var QueryDisplay = function (_Component) {
+  _inherits(QueryDisplay, _Component);
 
-  function QueryChart() {
-    var _Object$getPrototypeO;
+  function QueryDisplay() {
+    _classCallCheck(this, QueryDisplay);
 
-    _classCallCheck(this, QueryChart);
-
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(QueryChart)).call.apply(_Object$getPrototypeO, [this].concat(args)));
-
-    var newOne = Math.random();
-    _this.state = { percentage: newOne, newPercentage: newOne };
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(QueryDisplay).apply(this, arguments));
   }
 
-  _createClass(QueryChart, [{
-    key: 'resetPercentage',
-    value: function resetPercentage() {
-      var newOne = Math.random();
-      this.setState({ percentage: newOne, newPercentage: newOne });
-    }
-  }, {
-    key: 'setNewPercentage',
-    value: function setNewPercentage(e) {
-      var rect = e.currentTarget.getBoundingClientRect();
-      var newPercentage = (e.clientX - rect.left) / (rect.right - rect.left);
-      this.setState({ newPercentage: newPercentage });
-    }
-  }, {
-    key: 'startSlide',
-    value: function startSlide(e) {
-      var target = e.currentTarget;
-      this.setNewPercentage(e);
-      target.onmousemove = this.setNewPercentage.bind(this);
-      document.onmouseup = function () {
-        return target.onmousemove = null;
-      };
-    }
-  }, {
-    key: 'stringifyPercentage',
-    value: function stringifyPercentage(percentage) {
-      return Math.floor(percentage * 100) + '.' + Math.floor(percentage * 1000 % 10) + '%';
-    }
-  }, {
-    key: 'betCost',
-    value: function betCost() {
-      var _state = this.state;
-      var percentage = _state.percentage;
-      var newPercentage = _state.newPercentage;
+  _createClass(QueryDisplay, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var queries = _props.queries;
+      var activeQuery = _props.activeQuery;
+      var setActive = _props.setActive;
+      var addQuery = _props.addQuery;
 
-      var base;
-      if (percentage > newPercentage) {
-        base = Math.log(percentage / newPercentage);
-      } else {
-        base = Math.log((1 - percentage) / (1 - newPercentage));
+
+      var queryPanels = [];
+      for (var i = 0; i < queries.length; i++) {
+        queryPanels.push(_react2.default.createElement(_QueryPanel2.default, {
+          key: i,
+          index: i,
+          eventKey: i,
+          query: queries[i],
+          activeQuery: activeQuery,
+          setActive: setActive
+        }));
       }
-      return Math.floor(base * 100) + '.' + Math.floor(base * 1000 % 10);
+
+      return _react2.default.createElement(
+        _reactBootstrap.Col,
+        { md: 6, sm: 12, xs: 12 },
+        _react2.default.createElement(
+          'h3',
+          null,
+          'Chart'
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.PanelGroup,
+          null,
+          queryPanels
+        ),
+        _react2.default.createElement(_QueryAdd2.default, { addQuery: addQuery, disabled: queries.length >= 5 }),
+        _react2.default.createElement(_QuerySubmit2.default, null)
+      );
+    }
+  }]);
+
+  return QueryDisplay;
+}(_react.Component);
+
+exports.default = QueryDisplay;
+
+},{"./QueryAdd":435,"./QueryPanel":439,"./QuerySubmit":443,"react":434,"react-bootstrap":94}],437:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = require('react-bootstrap');
+
+var _QueryVarList = require('./QueryVarList');
+
+var _QueryVarList2 = _interopRequireDefault(_QueryVarList);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var QueryEditor = function (_Component) {
+  _inherits(QueryEditor, _Component);
+
+  function QueryEditor() {
+    _classCallCheck(this, QueryEditor);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(QueryEditor).apply(this, arguments));
+  }
+
+  _createClass(QueryEditor, [{
+    key: 'bindOutcomeChange',
+    value: function bindOutcomeChange(fn, queryIndex, part) {
+      return function (variable, outcome) {
+        return fn(queryIndex, part, variable, outcome);
+      };
     }
   }, {
     key: 'render',
     value: function render() {
-      var _state2 = this.state;
-      var percentage = _state2.percentage;
-      var newPercentage = _state2.newPercentage;
       var _props = this.props;
       var query = _props.query;
-      var index = _props.index;
-      var activeQuery = _props.activeQuery;
-      var setActive = _props.setActive;
-
-      var barBackgroundStyle = {
-        margin: '5px',
-        cursor: 'pointer',
-        userSelect: 'none',
-        height: '40px',
-        width: '100%',
-        backgroundColor: '#ccccff',
-        position: 'relative'
-      };
-
-      var currentBarStyle = {
-        height: '40px',
-        width: percentage * 100 + '%',
-        backgroundColor: '#aaaadd',
-        transition: 'width 0.3s',
-        position: 'absolute'
-      };
-
-      var newBarStyle = {
-        height: '40px',
-        width: newPercentage * 100 + '%',
-        backgroundColor: 'rgba(85, 85, 110, 0.3)',
-        // transition: 'width 0.2s',
-        position: 'absolute',
-        borderRight: '2px solid #5555dd'
-      };
-
-      var title = _react2.default.createElement(_QueryRender2.default, { query: query, setActive: setActive, index: index });
+      var variables = _props.variables;
+      var addOutcome = _props.addOutcome;
+      var removeOutcome = _props.removeOutcome;
+      var queryIndex = _props.queryIndex;
+      var bindOutcomeChange = this.bindOutcomeChange;
 
       return _react2.default.createElement(
-        _reactBootstrap.Panel,
-        { header: title, bsStyle: activeQuery === index ? 'success' : 'default', eventKey: index },
+        'div',
+        null,
         _react2.default.createElement(
-          _reactBootstrap.Row,
-          null,
+          _reactBootstrap.Col,
+          { md: 3, sm: 6, xs: 12 },
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 3 },
-            _react2.default.createElement(
-              'h4',
-              null,
-              this.stringifyPercentage(percentage),
-              '➜',
-              this.stringifyPercentage(newPercentage)
-            )
+            'h3',
+            null,
+            'Decisions'
           ),
+          _react2.default.createElement(_QueryVarList2.default, {
+            variables: variables.decisions,
+            query: query.decisions,
+            addOutcome: bindOutcomeChange(addOutcome, queryIndex, 'decisions'),
+            removeOutcome: bindOutcomeChange(removeOutcome, queryIndex, 'decisions')
+          })
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Col,
+          { md: 3, sm: 6, xs: 12 },
           _react2.default.createElement(
-            _reactBootstrap.Col,
-            { sm: 9 },
-            _react2.default.createElement(
-              'div',
-              { style: barBackgroundStyle, onMouseDown: this.startSlide.bind(this) },
-              _react2.default.createElement('div', { style: currentBarStyle }),
-              _react2.default.createElement('div', { style: newBarStyle })
-            )
-          )
+            'h3',
+            null,
+            'Outcomes'
+          ),
+          _react2.default.createElement(_QueryVarList2.default, {
+            variables: variables.outcomes,
+            query: query.outcomes,
+            addOutcome: bindOutcomeChange(addOutcome, queryIndex, 'outcomes'),
+            removeOutcome: bindOutcomeChange(removeOutcome, queryIndex, 'outcomes')
+          })
         )
       );
     }
   }]);
 
-  return QueryChart;
+  return QueryEditor;
 }(_react.Component);
 
-exports.default = QueryChart;
+exports.default = QueryEditor;
 
-},{"./QueryRender":438,"react":434,"react-bootstrap":94}],437:[function(require,module,exports){
+},{"./QueryVarList":445,"react":434,"react-bootstrap":94}],438:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54351,7 +54374,191 @@ var QueryOrgInfo = function (_Component) {
 
 exports.default = QueryOrgInfo;
 
-},{"react":434,"react-bootstrap":94}],438:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],439:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = require('react-bootstrap');
+
+var _QueryPanelHeader = require('./QueryPanelHeader');
+
+var _QueryPanelHeader2 = _interopRequireDefault(_QueryPanelHeader);
+
+var _QuerySlider = require('./QuerySlider');
+
+var _QuerySlider2 = _interopRequireDefault(_QuerySlider);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var QueryPanel = function (_Component) {
+  _inherits(QueryPanel, _Component);
+
+  function QueryPanel() {
+    var _Object$getPrototypeO;
+
+    _classCallCheck(this, QueryPanel);
+
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(QueryPanel)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+
+    var newOne = Math.random();
+    _this.state = { percentage: newOne, newPercentage: newOne };
+    return _this;
+  }
+
+  _createClass(QueryPanel, [{
+    key: 'setNewPercentage',
+    value: function setNewPercentage(newPercentage) {
+      this.setState({ newPercentage: newPercentage });
+    }
+  }, {
+    key: 'stringifyPercentage',
+    value: function stringifyPercentage(percentage) {
+      return Math.floor(percentage * 100) + '.' + Math.floor(percentage * 1000 % 10) + '%';
+    }
+  }, {
+    key: 'isActive',
+    value: function isActive() {
+      return this.props.activeQuery === this.props.index;
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state = this.state;
+      var percentage = _state.percentage;
+      var newPercentage = _state.newPercentage;
+      var _props = this.props;
+      var query = _props.query;
+      var index = _props.index;
+      var activeQuery = _props.activeQuery;
+      var setActive = _props.setActive;
+
+
+      var body = _react2.default.createElement(
+        _reactBootstrap.Row,
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Col,
+          { sm: 3 },
+          _react2.default.createElement(
+            'h4',
+            null,
+            this.stringifyPercentage(percentage),
+            '➜',
+            this.stringifyPercentage(newPercentage)
+          )
+        ),
+        _react2.default.createElement(
+          _reactBootstrap.Col,
+          { sm: 9 },
+          _react2.default.createElement(_QuerySlider2.default, {
+            percentage: percentage,
+            newPercentage: newPercentage,
+            setNewPercentage: this.setNewPercentage.bind(this) })
+        )
+      );
+      var panelHeader = _react2.default.createElement(_QueryPanelHeader2.default, {
+        query: query,
+        index: index,
+        setActive: setActive
+      });
+
+      return _react2.default.createElement(
+        _reactBootstrap.Panel,
+        {
+          header: panelHeader,
+          className: "chart-panel-" + (index % 5 + 1),
+          eventKey: index,
+          expanded: this.isActive(),
+          collapsible: true
+        },
+        body
+      );
+    }
+  }]);
+
+  return QueryPanel;
+}(_react.Component);
+
+exports.default = QueryPanel;
+
+},{"./QueryPanelHeader":440,"./QuerySlider":442,"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _QueryRender = require('./QueryRender');
+
+var _QueryRender2 = _interopRequireDefault(_QueryRender);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var QueryPanelHeader = function (_Component) {
+  _inherits(QueryPanelHeader, _Component);
+
+  function QueryPanelHeader() {
+    _classCallCheck(this, QueryPanelHeader);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(QueryPanelHeader).apply(this, arguments));
+  }
+
+  _createClass(QueryPanelHeader, [{
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var query = _props.query;
+      var index = _props.index;
+      var setActive = _props.setActive;
+
+
+      return _react2.default.createElement(
+        'span',
+        { className: 'fake-link', onClick: function onClick() {
+            return setActive(index);
+          } },
+        _react2.default.createElement(_QueryRender2.default, { query: query })
+      );
+    }
+  }]);
+
+  return QueryPanelHeader;
+}(_react.Component);
+
+exports.default = QueryPanelHeader;
+
+},{"./QueryRender":441,"react":434}],441:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54380,18 +54587,9 @@ var QueryRender = function (_Component) {
   _inherits(QueryRender, _Component);
 
   function QueryRender() {
-    var _Object$getPrototypeO;
-
     _classCallCheck(this, QueryRender);
 
-    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-
-    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(QueryRender)).call.apply(_Object$getPrototypeO, [this].concat(args)));
-
-    _this.state = { hover: false };
-    return _this;
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(QueryRender).apply(this, arguments));
   }
 
   _createClass(QueryRender, [{
@@ -54408,33 +54606,22 @@ var QueryRender = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var _props = this.props;
-      var query = _props.query;
-      var index = _props.index;
-      var setActive = _props.setActive;
+      var query = this.props.query;
 
       var outcomeString = this.genQueryPart(query.outcomes);
       var decisionString = this.genQueryPart(query.decisions);
 
       if (decisionString.length === 0 && outcomeString.length === 0) {
         return _react2.default.createElement(
-          'span',
-          { className: 'fake-link', onClick: function onClick() {
-              return setActive(index);
-            } },
-          _react2.default.createElement(
-            'em',
-            null,
-            'Select some outcomes and decisions'
-          )
+          'em',
+          null,
+          'Select some outcomes and decisions'
         );
       }
 
       return _react2.default.createElement(
         'span',
-        { className: 'fake-link', onClick: function onClick() {
-            return setActive(index);
-          } },
+        null,
         outcomeString.length === 0 ? '' : 'Probability of',
         _react2.default.createElement(
           'strong',
@@ -54459,7 +54646,78 @@ var QueryRender = function (_Component) {
 
 exports.default = QueryRender;
 
-},{"lodash":2,"react":434}],439:[function(require,module,exports){
+},{"lodash":2,"react":434}],442:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var QuerySlider = function (_Component) {
+  _inherits(QuerySlider, _Component);
+
+  function QuerySlider() {
+    _classCallCheck(this, QuerySlider);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(QuerySlider).apply(this, arguments));
+  }
+
+  _createClass(QuerySlider, [{
+    key: 'setNewPercentage',
+    value: function setNewPercentage(e) {
+      var rect = e.currentTarget.getBoundingClientRect();
+      var newPercentage = (e.clientX - rect.left) / (rect.right - rect.left);
+      this.props.setNewPercentage(newPercentage);
+    }
+  }, {
+    key: 'startSlide',
+    value: function startSlide(e) {
+      var target = e.currentTarget;
+      this.setNewPercentage(e);
+      target.onmousemove = this.setNewPercentage.bind(this);
+      document.onmouseup = function () {
+        return target.onmousemove = null;
+      };
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _props = this.props;
+      var percentage = _props.percentage;
+      var newPercentage = _props.newPercentage;
+
+      var currentBarStyle = { width: percentage * 100 + '%' };
+      var newBarStyle = { width: newPercentage * 100 + '%' };
+
+      return _react2.default.createElement(
+        'div',
+        { className: 'background-bar', onMouseDown: this.startSlide.bind(this) },
+        _react2.default.createElement('div', { className: 'current-bar', style: currentBarStyle }),
+        _react2.default.createElement('div', { className: 'new-bar', style: newBarStyle })
+      );
+    }
+  }]);
+
+  return QuerySlider;
+}(_react.Component);
+
+exports.default = QuerySlider;
+
+},{"react":434}],443:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54515,7 +54773,7 @@ var QuerySubmit = function (_Component) {
 
 exports.default = QuerySubmit;
 
-},{"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],444:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54614,7 +54872,7 @@ var QueryVar = function (_Component) {
 
 exports.default = QueryVar;
 
-},{"react":434,"react-bootstrap":94}],441:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],445:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54682,7 +54940,7 @@ var QueryVarList = function (_Component) {
 
 exports.default = QueryVarList;
 
-},{"./QueryVar.js":440,"react":434,"react-bootstrap":94}],442:[function(require,module,exports){
+},{"./QueryVar.js":444,"react":434,"react-bootstrap":94}],446:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54766,7 +55024,7 @@ var Topbar = function (_Component) {
 
 exports.default = Topbar;
 
-},{"react":434,"react-bootstrap":94}],443:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],447:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54781,29 +55039,17 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = require('react-bootstrap');
 
-var _QueryVarList = require('../components/QueryVarList');
-
-var _QueryVarList2 = _interopRequireDefault(_QueryVarList);
-
-var _QueryRender = require('../components/QueryRender');
-
-var _QueryRender2 = _interopRequireDefault(_QueryRender);
-
 var _QueryOrgInfo = require('../components/QueryOrgInfo');
 
 var _QueryOrgInfo2 = _interopRequireDefault(_QueryOrgInfo);
 
-var _QueryChart = require('../components/QueryChart');
+var _QueryEditor = require('../components/QueryEditor');
 
-var _QueryChart2 = _interopRequireDefault(_QueryChart);
+var _QueryEditor2 = _interopRequireDefault(_QueryEditor);
 
-var _QuerySubmit = require('../components/QuerySubmit');
+var _QueryDisplay = require('../components/QueryDisplay');
 
-var _QuerySubmit2 = _interopRequireDefault(_QuerySubmit);
-
-var _QueryAdd = require('../components/QueryAdd');
-
-var _QueryAdd2 = _interopRequireDefault(_QueryAdd);
+var _QueryDisplay2 = _interopRequireDefault(_QueryDisplay);
 
 var _Topbar = require('../components/Topbar/Topbar');
 
@@ -54826,28 +55072,30 @@ var App = function (_Component) {
     var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this));
 
     _this.state = {
-      testDecisions: [{
-        name: "New wait staff",
-        help: "Number of new wait staff hired",
-        outcomes: ["0", "1-2", "3-4"]
-      }, {
-        name: "New menu items",
-        help: "Which new menu item to add",
-        outcomes: ["Chicken burger", "Tofu salad"]
-      }],
-      testOutcomes: [{
-        name: "Nighttime customers",
-        help: "Number of customers between 6pm and close",
-        outcomes: ["0-20", "21-50", "51-150"]
-      }, {
-        name: "Daytime customers",
-        help: "Number of customers between opening and 6pm",
-        outcomes: ["0-20", "21-50", "51-150", ">150"]
-      }, {
-        name: "Average meal revenue",
-        help: "Average amount paid per customer",
-        outcomes: ["$5-$15", "$16-$25", ">$25"]
-      }],
+      variables: {
+        decisions: [{
+          name: "New wait staff",
+          help: "Number of new wait staff hired",
+          outcomes: ["0", "1-2", "3-4"]
+        }, {
+          name: "New menu items",
+          help: "Which new menu item to add",
+          outcomes: ["Chicken burger", "Tofu salad"]
+        }],
+        outcomes: [{
+          name: "Nighttime customers",
+          help: "Number of customers between 6pm and close",
+          outcomes: ["0-20", "21-50", "51-150"]
+        }, {
+          name: "Daytime customers",
+          help: "Number of customers between opening and 6pm",
+          outcomes: ["0-20", "21-50", "51-150", ">150"]
+        }, {
+          name: "Average meal revenue",
+          help: "Average amount paid per customer",
+          outcomes: ["$5-$15", "$16-$25", ">$25"]
+        }]
+      },
       queries: [{
         decisions: {},
         outcomes: {}
@@ -54910,33 +55158,22 @@ var App = function (_Component) {
     key: 'render',
     value: function render() {
       var _state = this.state;
-      var testDecisions = _state.testDecisions;
-      var testOutcomes = _state.testOutcomes;
+      var variables = _state.variables;
       var queries = _state.queries;
       var numQueries = _state.numQueries;
       var activeQuery = _state.activeQuery;
 
       var query = queries[activeQuery];
+
       var addOutcome = this.addOutcome;
       var removeOutcome = this.removeOutcome;
       var setActive = this.setActive;
+      var addQuery = this.addQuery;
 
-
-      var queryCharts = [];
-      for (var i = 0; i < queries.length; i++) {
-        queryCharts.push(_react2.default.createElement(_QueryChart2.default, {
-          key: i,
-          query: queries[i],
-          index: i,
-          activeQuery: activeQuery,
-          setActive: setActive.bind(this)
-        }));
-      }
-
-      var addDecisionOutcome = addOutcome.bind(this, activeQuery, 'decisions');
-      var removeDecisionOutcome = removeOutcome.bind(this, activeQuery, 'decisions');
-      var addOutcomeOutcome = addOutcome.bind(this, activeQuery, 'outcomes');
-      var removeOutcomeOutcome = removeOutcome.bind(this, activeQuery, 'outcomes');
+      var addOutcome = addOutcome.bind(this);
+      var removeOutcome = removeOutcome.bind(this);
+      var setActive = setActive.bind(this);
+      var addQuery = addQuery.bind(this);
 
       return _react2.default.createElement(
         'div',
@@ -54949,52 +55186,19 @@ var App = function (_Component) {
           _react2.default.createElement(
             _reactBootstrap.Row,
             null,
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { md: 3, sm: 6, xs: 12 },
-              _react2.default.createElement(
-                'h3',
-                null,
-                'Decisions'
-              ),
-              _react2.default.createElement(_QueryVarList2.default, {
-                variables: testDecisions,
-                query: query.decisions,
-                addOutcome: addDecisionOutcome,
-                removeOutcome: removeDecisionOutcome
-              })
-            ),
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { md: 3, sm: 6, xs: 12 },
-              _react2.default.createElement(
-                'h3',
-                null,
-                'Outcomes'
-              ),
-              _react2.default.createElement(_QueryVarList2.default, {
-                variables: testOutcomes,
-                query: query.outcomes,
-                addOutcome: addOutcomeOutcome,
-                removeOutcome: removeOutcomeOutcome
-              })
-            ),
-            _react2.default.createElement(
-              _reactBootstrap.Col,
-              { md: 6, sm: 12, xs: 12 },
-              _react2.default.createElement(
-                'h3',
-                null,
-                'Chart'
-              ),
-              _react2.default.createElement(
-                _reactBootstrap.PanelGroup,
-                null,
-                queryCharts
-              ),
-              _react2.default.createElement(_QueryAdd2.default, { addQuery: this.addQuery.bind(this) }),
-              _react2.default.createElement(_QuerySubmit2.default, null)
-            )
+            _react2.default.createElement(_QueryEditor2.default, {
+              query: query,
+              addOutcome: addOutcome,
+              removeOutcome: removeOutcome,
+              variables: variables,
+              queryIndex: activeQuery
+            }),
+            _react2.default.createElement(_QueryDisplay2.default, {
+              queries: queries,
+              activeQuery: activeQuery,
+              setActive: setActive,
+              addQuery: addQuery
+            })
           )
         )
       );
@@ -55006,7 +55210,7 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"../components/QueryAdd":435,"../components/QueryChart":436,"../components/QueryOrgInfo":437,"../components/QueryRender":438,"../components/QuerySubmit":439,"../components/QueryVarList":441,"../components/Topbar/Topbar":442,"react":434,"react-bootstrap":94}],444:[function(require,module,exports){
+},{"../components/QueryDisplay":436,"../components/QueryEditor":437,"../components/QueryOrgInfo":438,"../components/Topbar/Topbar":446,"react":434,"react-bootstrap":94}],448:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -55027,4 +55231,4 @@ var rootElement = document.getElementById('main');
 
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), rootElement);
 
-},{"./containers/App":443,"react":434,"react-dom":269}]},{},[444]);
+},{"./containers/App":447,"react":434,"react-dom":269}]},{},[448]);
