@@ -54440,6 +54440,12 @@ var QueryPanel = function (_Component) {
       return this.props.activeQuery === this.props.index;
     }
   }, {
+    key: 'emptyOutcomes',
+    value: function emptyOutcomes() {
+      var outcomes = this.props.query.outcomes;
+      return Object.keys(outcomes).length === 0 && outcomes.constructor === Object;
+    }
+  }, {
     key: 'render',
     value: function render() {
       var _state = this.state;
@@ -54452,29 +54458,68 @@ var QueryPanel = function (_Component) {
       var setActive = _props.setActive;
 
 
-      var body = _react2.default.createElement(
-        _reactBootstrap.Row,
-        null,
-        _react2.default.createElement(
-          _reactBootstrap.Col,
-          { sm: 3 },
+      var palette = [{
+        background: '#E6CCFF',
+        current: '#C4AADD',
+        new: 'rgba(97, 85, 110, 0.3)',
+        newBorder: '#9854DB'
+      }, {
+        background: '#FFE6CC',
+        current: '#DBC2A9',
+        new: 'rgba(110, 97, 85, 0.3)',
+        newBorder: '#FB9854'
+      }, {
+        background: '#ccccff',
+        current: '#aaaadd',
+        new: 'rgba(85, 85, 110, 0.3)',
+        newBorder: '#5555dd'
+      }, {
+        background: '#ffcccc',
+        current: '#DDAAAA',
+        new: 'rgba(110, 85, 85, 0.3)',
+        newBorder: '#dd5555'
+      }, {
+        background: '#ccffcc',
+        current: '#A9DBA9',
+        new: 'rgba(85, 110, 85, 0.3)',
+        newBorder: '#36B336'
+      }];
+
+      var body;
+      if (this.emptyOutcomes()) {
+        body = _react2.default.createElement(
+          'div',
+          null,
+          'Select outcomes to display chart'
+        );
+      } else {
+        body = _react2.default.createElement(
+          _reactBootstrap.Row,
+          null,
           _react2.default.createElement(
-            'h4',
-            null,
-            this.stringifyPercentage(percentage),
-            '➜',
-            this.stringifyPercentage(newPercentage)
+            _reactBootstrap.Col,
+            { sm: 3 },
+            _react2.default.createElement(
+              'h4',
+              null,
+              this.stringifyPercentage(percentage),
+              '➜',
+              this.stringifyPercentage(newPercentage)
+            )
+          ),
+          _react2.default.createElement(
+            _reactBootstrap.Col,
+            { sm: 9 },
+            _react2.default.createElement(_QuerySlider2.default, {
+              percentage: percentage,
+              newPercentage: newPercentage,
+              setNewPercentage: this.setNewPercentage.bind(this),
+              palette: palette[index]
+            })
           )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Col,
-          { sm: 9 },
-          _react2.default.createElement(_QuerySlider2.default, {
-            percentage: percentage,
-            newPercentage: newPercentage,
-            setNewPercentage: this.setNewPercentage.bind(this) })
-        )
-      );
+        );
+      }
+
       var panelHeader = _react2.default.createElement(_QueryPanelHeader2.default, {
         query: query,
         index: index,
@@ -54699,13 +54744,28 @@ var QuerySlider = function (_Component) {
       var _props = this.props;
       var percentage = _props.percentage;
       var newPercentage = _props.newPercentage;
+      var palette = _props.palette;
 
-      var currentBarStyle = { width: percentage * 100 + '%' };
-      var newBarStyle = { width: newPercentage * 100 + '%' };
+      var backgroundBarStyle = { backgroundColor: palette.background };
+
+      var currentBarStyle = {
+        width: percentage * 100 + '%',
+        backgroundColor: palette.current
+      };
+
+      var newBarStyle = {
+        width: newPercentage * 100 + '%',
+        backgroundColor: palette.new,
+        borderRightColor: palette.newBorder
+      };
 
       return _react2.default.createElement(
         'div',
-        { className: 'background-bar', onMouseDown: this.startSlide.bind(this) },
+        {
+          className: 'background-bar',
+          style: backgroundBarStyle,
+          onMouseDown: this.startSlide.bind(this)
+        },
         _react2.default.createElement('div', { className: 'current-bar', style: currentBarStyle }),
         _react2.default.createElement('div', { className: 'new-bar', style: newBarStyle })
       );
