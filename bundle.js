@@ -54016,6 +54016,10 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = require('react-bootstrap');
 
+var _QueryRender = require('./QueryRender');
+
+var _QueryRender2 = _interopRequireDefault(_QueryRender);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54072,11 +54076,35 @@ var QueryChart = function (_Component) {
       return Math.floor(percentage * 100) + '.' + Math.floor(percentage * 1000 % 10) + '%';
     }
   }, {
-    key: 'render',
-    value: function render() {
+    key: 'betCost',
+    value: function betCost() {
       var _state = this.state;
       var percentage = _state.percentage;
       var newPercentage = _state.newPercentage;
+
+      var base;
+      if (percentage > newPercentage) {
+        base = Math.log(percentage / newPercentage);
+      } else {
+        base = Math.log((1 - percentage) / (1 - newPercentage));
+      }
+      return Math.floor(base * 100) + '.' + Math.floor(base * 1000 % 10);
+    }
+  }, {
+    key: 'submitBet',
+    value: function submitBet() {
+      console.log('submitBet');
+      this.setState(function (state) {
+        return { percentage: state.newPercentage };
+      });
+    }
+  }, {
+    key: 'render',
+    value: function render() {
+      var _state2 = this.state;
+      var percentage = _state2.percentage;
+      var newPercentage = _state2.newPercentage;
+      var query = this.props.query;
 
       var barBackgroundStyle = {
         cursor: 'pointer',
@@ -54105,27 +54133,33 @@ var QueryChart = function (_Component) {
       };
 
       return _react2.default.createElement(
-        _reactBootstrap.Row,
+        'div',
         null,
+        _react2.default.createElement(_QueryRender2.default, { query: query }),
         _react2.default.createElement(
-          _reactBootstrap.Col,
-          { md: 3 },
+          _reactBootstrap.Row,
+          null,
           _react2.default.createElement(
-            'h4',
-            null,
-            this.stringifyPercentage(percentage),
-            '➜',
-            this.stringifyPercentage(newPercentage)
-          )
-        ),
-        _react2.default.createElement(
-          _reactBootstrap.Col,
-          { md: 9 },
+            _reactBootstrap.Col,
+            { sm: 3 },
+            _react2.default.createElement(
+              'h4',
+              null,
+              this.stringifyPercentage(percentage),
+              '➜',
+              this.stringifyPercentage(newPercentage)
+            )
+          ),
           _react2.default.createElement(
-            'div',
-            { style: barBackgroundStyle, onMouseDown: this.startSlide.bind(this) },
-            _react2.default.createElement('div', { style: currentBarStyle }),
-            _react2.default.createElement('div', { style: newBarStyle })
+            _reactBootstrap.Col,
+            { sm: 9 },
+            _react2.default.createElement(
+              'div',
+              { style: barBackgroundStyle, onMouseDown: this.startSlide.bind(this) },
+              _react2.default.createElement('div', { style: currentBarStyle }),
+              _react2.default.createElement('div', { style: newBarStyle })
+            ),
+            _react2.default.createElement('br', null)
           )
         )
       );
@@ -54137,7 +54171,7 @@ var QueryChart = function (_Component) {
 
 exports.default = QueryChart;
 
-},{"react":434,"react-bootstrap":94}],436:[function(require,module,exports){
+},{"./QueryRender":437,"react":434,"react-bootstrap":94}],436:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54366,6 +54400,62 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+var QuerySubmit = function (_Component) {
+  _inherits(QuerySubmit, _Component);
+
+  function QuerySubmit() {
+    _classCallCheck(this, QuerySubmit);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(QuerySubmit).apply(this, arguments));
+  }
+
+  _createClass(QuerySubmit, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactBootstrap.Row,
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Col,
+          { md: 12 },
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsStyle: 'primary', block: true },
+            'Submit bet'
+          )
+        )
+      );
+    }
+  }]);
+
+  return QuerySubmit;
+}(_react.Component);
+
+exports.default = QuerySubmit;
+
+},{"react":434,"react-bootstrap":94}],439:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = require('react-bootstrap');
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
 var QueryVar = function (_Component) {
   _inherits(QueryVar, _Component);
 
@@ -54442,7 +54532,7 @@ var QueryVar = function (_Component) {
 
 exports.default = QueryVar;
 
-},{"react":434,"react-bootstrap":94}],439:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54510,7 +54600,7 @@ var QueryVarList = function (_Component) {
 
 exports.default = QueryVarList;
 
-},{"./QueryVar.js":438,"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
+},{"./QueryVar.js":439,"react":434,"react-bootstrap":94}],441:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54594,7 +54684,7 @@ var Topbar = function (_Component) {
 
 exports.default = Topbar;
 
-},{"react":434,"react-bootstrap":94}],441:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],442:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54624,6 +54714,10 @@ var _QueryOrgInfo2 = _interopRequireDefault(_QueryOrgInfo);
 var _QueryChart = require('../components/QueryChart');
 
 var _QueryChart2 = _interopRequireDefault(_QueryChart);
+
+var _QuerySubmit = require('../components/QuerySubmit');
+
+var _QuerySubmit2 = _interopRequireDefault(_QuerySubmit);
 
 var _Topbar = require('../components/Topbar/Topbar');
 
@@ -54767,8 +54861,10 @@ var App = function (_Component) {
                 null,
                 'Chart'
               ),
-              _react2.default.createElement(_QueryRender2.default, { query: query }),
-              _react2.default.createElement(_QueryChart2.default, null)
+              _react2.default.createElement(_QueryChart2.default, { query: query }),
+              _react2.default.createElement(_QueryChart2.default, { query: query }),
+              _react2.default.createElement(_QueryChart2.default, { query: query }),
+              _react2.default.createElement(_QuerySubmit2.default, null)
             )
           )
         )
@@ -54781,7 +54877,7 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"../components/QueryChart":435,"../components/QueryOrgInfo":436,"../components/QueryRender":437,"../components/QueryVarList":439,"../components/Topbar/Topbar":440,"react":434,"react-bootstrap":94}],442:[function(require,module,exports){
+},{"../components/QueryChart":435,"../components/QueryOrgInfo":436,"../components/QueryRender":437,"../components/QuerySubmit":438,"../components/QueryVarList":440,"../components/Topbar/Topbar":441,"react":434,"react-bootstrap":94}],443:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -54802,4 +54898,4 @@ var rootElement = document.getElementById('main');
 
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), rootElement);
 
-},{"./containers/App":441,"react":434,"react-dom":269}]},{},[442]);
+},{"./containers/App":442,"react":434,"react-dom":269}]},{},[443]);
