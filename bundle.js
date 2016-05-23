@@ -54016,6 +54016,62 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactBootstrap = require('react-bootstrap');
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var QueryAdd = function (_Component) {
+  _inherits(QueryAdd, _Component);
+
+  function QueryAdd() {
+    _classCallCheck(this, QueryAdd);
+
+    return _possibleConstructorReturn(this, Object.getPrototypeOf(QueryAdd).apply(this, arguments));
+  }
+
+  _createClass(QueryAdd, [{
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        _reactBootstrap.Row,
+        null,
+        _react2.default.createElement(
+          _reactBootstrap.Col,
+          { md: 12 },
+          _react2.default.createElement(
+            _reactBootstrap.Button,
+            { bsStyle: 'success', onClick: this.props.addQuery, block: true },
+            'Add query'
+          )
+        )
+      );
+    }
+  }]);
+
+  return QueryAdd;
+}(_react.Component);
+
+exports.default = QueryAdd;
+
+},{"react":434,"react-bootstrap":94}],436:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _reactBootstrap = require('react-bootstrap');
+
 var _QueryRender = require('./QueryRender');
 
 var _QueryRender2 = _interopRequireDefault(_QueryRender);
@@ -54091,22 +54147,19 @@ var QueryChart = function (_Component) {
       return Math.floor(base * 100) + '.' + Math.floor(base * 1000 % 10);
     }
   }, {
-    key: 'submitBet',
-    value: function submitBet() {
-      console.log('submitBet');
-      this.setState(function (state) {
-        return { percentage: state.newPercentage };
-      });
-    }
-  }, {
     key: 'render',
     value: function render() {
       var _state2 = this.state;
       var percentage = _state2.percentage;
       var newPercentage = _state2.newPercentage;
-      var query = this.props.query;
+      var _props = this.props;
+      var query = _props.query;
+      var index = _props.index;
+      var activeQuery = _props.activeQuery;
+      var setActive = _props.setActive;
 
       var barBackgroundStyle = {
+        margin: '5px',
         cursor: 'pointer',
         userSelect: 'none',
         height: '40px',
@@ -54132,10 +54185,11 @@ var QueryChart = function (_Component) {
         borderRight: '2px solid #5555dd'
       };
 
+      var title = _react2.default.createElement(_QueryRender2.default, { query: query, setActive: setActive, index: index });
+
       return _react2.default.createElement(
-        'div',
-        null,
-        _react2.default.createElement(_QueryRender2.default, { query: query }),
+        _reactBootstrap.Panel,
+        { header: title, bsStyle: activeQuery === index ? 'success' : 'default', eventKey: index },
         _react2.default.createElement(
           _reactBootstrap.Row,
           null,
@@ -54158,8 +54212,7 @@ var QueryChart = function (_Component) {
               { style: barBackgroundStyle, onMouseDown: this.startSlide.bind(this) },
               _react2.default.createElement('div', { style: currentBarStyle }),
               _react2.default.createElement('div', { style: newBarStyle })
-            ),
-            _react2.default.createElement('br', null)
+            )
           )
         )
       );
@@ -54171,7 +54224,7 @@ var QueryChart = function (_Component) {
 
 exports.default = QueryChart;
 
-},{"./QueryRender":437,"react":434,"react-bootstrap":94}],436:[function(require,module,exports){
+},{"./QueryRender":438,"react":434,"react-bootstrap":94}],437:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54298,7 +54351,7 @@ var QueryOrgInfo = function (_Component) {
 
 exports.default = QueryOrgInfo;
 
-},{"react":434,"react-bootstrap":94}],437:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],438:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54327,9 +54380,18 @@ var QueryRender = function (_Component) {
   _inherits(QueryRender, _Component);
 
   function QueryRender() {
+    var _Object$getPrototypeO;
+
     _classCallCheck(this, QueryRender);
 
-    return _possibleConstructorReturn(this, Object.getPrototypeOf(QueryRender).apply(this, arguments));
+    for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var _this = _possibleConstructorReturn(this, (_Object$getPrototypeO = Object.getPrototypeOf(QueryRender)).call.apply(_Object$getPrototypeO, [this].concat(args)));
+
+    _this.state = { hover: false };
+    return _this;
   }
 
   _createClass(QueryRender, [{
@@ -54346,13 +54408,33 @@ var QueryRender = function (_Component) {
   }, {
     key: 'render',
     value: function render() {
-      var query = this.props.query;
+      var _props = this.props;
+      var query = _props.query;
+      var index = _props.index;
+      var setActive = _props.setActive;
 
       var outcomeString = this.genQueryPart(query.outcomes);
       var decisionString = this.genQueryPart(query.decisions);
+
+      if (decisionString.length === 0 && outcomeString.length === 0) {
+        return _react2.default.createElement(
+          'span',
+          { className: 'fake-link', onClick: function onClick() {
+              return setActive(index);
+            } },
+          _react2.default.createElement(
+            'em',
+            null,
+            'Select some outcomes and decisions'
+          )
+        );
+      }
+
       return _react2.default.createElement(
-        'div',
-        null,
+        'span',
+        { className: 'fake-link', onClick: function onClick() {
+            return setActive(index);
+          } },
         outcomeString.length === 0 ? '' : 'Probability of',
         _react2.default.createElement(
           'strong',
@@ -54377,7 +54459,7 @@ var QueryRender = function (_Component) {
 
 exports.default = QueryRender;
 
-},{"lodash":2,"react":434}],438:[function(require,module,exports){
+},{"lodash":2,"react":434}],439:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54433,7 +54515,7 @@ var QuerySubmit = function (_Component) {
 
 exports.default = QuerySubmit;
 
-},{"react":434,"react-bootstrap":94}],439:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54532,7 +54614,7 @@ var QueryVar = function (_Component) {
 
 exports.default = QueryVar;
 
-},{"react":434,"react-bootstrap":94}],440:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],441:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54600,7 +54682,7 @@ var QueryVarList = function (_Component) {
 
 exports.default = QueryVarList;
 
-},{"./QueryVar.js":439,"react":434,"react-bootstrap":94}],441:[function(require,module,exports){
+},{"./QueryVar.js":440,"react":434,"react-bootstrap":94}],442:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54684,7 +54766,7 @@ var Topbar = function (_Component) {
 
 exports.default = Topbar;
 
-},{"react":434,"react-bootstrap":94}],442:[function(require,module,exports){
+},{"react":434,"react-bootstrap":94}],443:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54718,6 +54800,10 @@ var _QueryChart2 = _interopRequireDefault(_QueryChart);
 var _QuerySubmit = require('../components/QuerySubmit');
 
 var _QuerySubmit2 = _interopRequireDefault(_QuerySubmit);
+
+var _QueryAdd = require('../components/QueryAdd');
+
+var _QueryAdd2 = _interopRequireDefault(_QueryAdd);
 
 var _Topbar = require('../components/Topbar/Topbar');
 
@@ -54762,32 +54848,38 @@ var App = function (_Component) {
         help: "Average amount paid per customer",
         outcomes: ["$5-$15", "$16-$25", ">$25"]
       }],
+      queries: [{
+        decisions: {},
+        outcomes: {}
+      }],
       query: {
         decisions: {},
         outcomes: {}
-      }
+      },
+      activeQuery: 0
     };
     return _this;
   }
 
   _createClass(App, [{
     key: 'addOutcome',
-    value: function addOutcome(part, variable, outcome) {
+    value: function addOutcome(queryIndex, part, variable, outcome) {
       this.setState(function (state) {
-        var query = state.query;
+        var query = state.queries[queryIndex];
         if (query[part][variable]) {
           query[part][variable].push(outcome);
         } else {
           query[part][variable] = [outcome];
         }
-        return { query: query };
+        state.queries[queryIndex] = query;
+        return { queries: state.queries };
       });
     }
   }, {
     key: 'removeOutcome',
-    value: function removeOutcome(part, variable, outcome) {
+    value: function removeOutcome(queryIndex, part, variable, outcome) {
       this.setState(function (state) {
-        var query = state.query;
+        var query = state.queries[queryIndex];
         var outcomeIndex = query[part][variable].indexOf(outcome);
         var outcomeArr = query[part][variable];
         if (outcomeArr.length > 1) {
@@ -54795,7 +54887,23 @@ var App = function (_Component) {
         } else {
           delete query[part][variable];
         }
-        return { query: query };
+        state.queries[queryIndex] = query;
+        return { queries: state.queries };
+      });
+    }
+  }, {
+    key: 'setActive',
+    value: function setActive(queryIndex) {
+      this.setState({ activeQuery: queryIndex });
+    }
+  }, {
+    key: 'addQuery',
+    value: function addQuery() {
+      this.setState(function (state) {
+        var queries = state.queries;
+
+        queries.push({ decisions: {}, outcomes: {} });
+        return { queries: queries, activeQuery: queries.length - 1 };
       });
     }
   }, {
@@ -54804,14 +54912,32 @@ var App = function (_Component) {
       var _state = this.state;
       var testDecisions = _state.testDecisions;
       var testOutcomes = _state.testOutcomes;
-      var query = _state.query;
+      var queries = _state.queries;
+      var numQueries = _state.numQueries;
+      var activeQuery = _state.activeQuery;
+
+      var query = queries[activeQuery];
       var addOutcome = this.addOutcome;
       var removeOutcome = this.removeOutcome;
+      var setActive = this.setActive;
 
-      var addDecisionOutcome = addOutcome.bind(this, 'decisions');
-      var removeDecisionOutcome = removeOutcome.bind(this, 'decisions');
-      var addOutcomeOutcome = addOutcome.bind(this, 'outcomes');
-      var removeOutcomeOutcome = removeOutcome.bind(this, 'outcomes');
+
+      var queryCharts = [];
+      for (var i = 0; i < queries.length; i++) {
+        queryCharts.push(_react2.default.createElement(_QueryChart2.default, {
+          key: i,
+          query: queries[i],
+          index: i,
+          activeQuery: activeQuery,
+          setActive: setActive.bind(this)
+        }));
+      }
+
+      var addDecisionOutcome = addOutcome.bind(this, activeQuery, 'decisions');
+      var removeDecisionOutcome = removeOutcome.bind(this, activeQuery, 'decisions');
+      var addOutcomeOutcome = addOutcome.bind(this, activeQuery, 'outcomes');
+      var removeOutcomeOutcome = removeOutcome.bind(this, activeQuery, 'outcomes');
+
       return _react2.default.createElement(
         'div',
         null,
@@ -54861,9 +54987,12 @@ var App = function (_Component) {
                 null,
                 'Chart'
               ),
-              _react2.default.createElement(_QueryChart2.default, { query: query }),
-              _react2.default.createElement(_QueryChart2.default, { query: query }),
-              _react2.default.createElement(_QueryChart2.default, { query: query }),
+              _react2.default.createElement(
+                _reactBootstrap.PanelGroup,
+                null,
+                queryCharts
+              ),
+              _react2.default.createElement(_QueryAdd2.default, { addQuery: this.addQuery.bind(this) }),
               _react2.default.createElement(_QuerySubmit2.default, null)
             )
           )
@@ -54877,7 +55006,7 @@ var App = function (_Component) {
 
 exports.default = App;
 
-},{"../components/QueryChart":435,"../components/QueryOrgInfo":436,"../components/QueryRender":437,"../components/QuerySubmit":438,"../components/QueryVarList":440,"../components/Topbar/Topbar":441,"react":434,"react-bootstrap":94}],443:[function(require,module,exports){
+},{"../components/QueryAdd":435,"../components/QueryChart":436,"../components/QueryOrgInfo":437,"../components/QueryRender":438,"../components/QuerySubmit":439,"../components/QueryVarList":441,"../components/Topbar/Topbar":442,"react":434,"react-bootstrap":94}],444:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -54898,4 +55027,4 @@ var rootElement = document.getElementById('main');
 
 _reactDom2.default.render(_react2.default.createElement(_App2.default, null), rootElement);
 
-},{"./containers/App":442,"react":434,"react-dom":269}]},{},[443]);
+},{"./containers/App":443,"react":434,"react-dom":269}]},{},[444]);
