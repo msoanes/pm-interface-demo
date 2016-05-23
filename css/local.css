@@ -4,27 +4,33 @@
 }
 
 .background-bar {
-    margin: 5px;
-    cursor: pointer;
-    user-select: none;
-    height: 40px;
-    width: 100%;
-    background-color: #ccccff;
-    position: relative;
+  margin: 5px;
+  cursor: pointer;
+  user-select: none;
+  min-height: 40px;
+  width: 100%;
+  background-color: #ccccff;
+  position: relative;
 }
 
 .current-bar {
-  height: 40px;
+  height: 100%;
   background-color: #aaaadd;
   transition: width 0.3s;
   position: absolute;
+  top: 0;
 }
 
 .new-bar {
-  height: 40px;
+  height: 100%;
   background-color: rgba(85, 85, 110, 0.3);
   position: absolute;
+  top: 0;
   border-right: 2px solid #5555dd;
+}
+
+.chart-panel > .panel-heading {
+  padding: 0;
 }
 
 .chart-panel-1 {

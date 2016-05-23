@@ -54523,14 +54523,18 @@ var QueryPanel = function (_Component) {
       var panelHeader = _react2.default.createElement(_QueryPanelHeader2.default, {
         query: query,
         index: index,
-        setActive: setActive
+        setActive: setActive,
+        isActive: this.isActive(),
+        percentage: percentage,
+        newPercentage: newPercentage,
+        palette: palette[index]
       });
 
       return _react2.default.createElement(
         _reactBootstrap.Panel,
         {
           header: panelHeader,
-          className: "chart-panel-" + (index % 5 + 1),
+          className: "chart-panel chart-panel-" + (index + 1),
           eventKey: index,
           expanded: this.isActive(),
           collapsible: true
@@ -54562,6 +54566,10 @@ var _QueryRender = require('./QueryRender');
 
 var _QueryRender2 = _interopRequireDefault(_QueryRender);
 
+var _QuerySlider = require('./QuerySlider');
+
+var _QuerySlider2 = _interopRequireDefault(_QuerySlider);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -54586,14 +54594,34 @@ var QueryPanelHeader = function (_Component) {
       var query = _props.query;
       var index = _props.index;
       var setActive = _props.setActive;
+      var isActive = _props.isActive;
+      var percentage = _props.percentage;
+      var newPercentage = _props.newPercentage;
+      var palette = _props.palette;
 
-
-      return _react2.default.createElement(
-        'span',
+      var content = _react2.default.createElement(
+        'div',
         { className: 'fake-link', onClick: function onClick() {
             return setActive(index);
-          } },
+          }, style: { padding: '10px 10px' } },
         _react2.default.createElement(_QueryRender2.default, { query: query })
+      );
+      if (!isActive) {
+        content = _react2.default.createElement(
+          _QuerySlider2.default,
+          {
+            percentage: percentage,
+            newPercentage: newPercentage,
+            palette: palette,
+            isStatic: true
+          },
+          content
+        );
+      }
+      return _react2.default.createElement(
+        'div',
+        { style: { position: 'relative' } },
+        content
       );
     }
   }]);
@@ -54603,7 +54631,7 @@ var QueryPanelHeader = function (_Component) {
 
 exports.default = QueryPanelHeader;
 
-},{"./QueryRender":441,"react":434}],441:[function(require,module,exports){
+},{"./QueryRender":441,"./QuerySlider":442,"react":434}],441:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -54745,6 +54773,7 @@ var QuerySlider = function (_Component) {
       var percentage = _props.percentage;
       var newPercentage = _props.newPercentage;
       var palette = _props.palette;
+      var isStatic = _props.isStatic;
 
       var backgroundBarStyle = { backgroundColor: palette.background };
 
@@ -54759,6 +54788,13 @@ var QuerySlider = function (_Component) {
         borderRightColor: palette.newBorder
       };
 
+      if (isStatic) {
+        // backgroundBarStyle.position = 'absolute';
+        backgroundBarStyle.margin = '0px';
+        backgroundBarStyle.top = '0';
+        backgroundBarStyle.left = '0';
+      }
+
       return _react2.default.createElement(
         'div',
         {
@@ -54767,7 +54803,12 @@ var QuerySlider = function (_Component) {
           onMouseDown: this.startSlide.bind(this)
         },
         _react2.default.createElement('div', { className: 'current-bar', style: currentBarStyle }),
-        _react2.default.createElement('div', { className: 'new-bar', style: newBarStyle })
+        _react2.default.createElement('div', { className: 'new-bar', style: newBarStyle }),
+        _react2.default.createElement(
+          'div',
+          { style: { position: 'relative' } },
+          this.props.children
+        )
       );
     }
   }]);
